@@ -39,10 +39,19 @@ const optimal = await clusterer.findOptimalK(items);
 
 ## Available Exports
 
-### Functions
+### Clustering Functions
+
+- **`cluster(items, options): Promise<ClusterResult>`** -- Cluster EmbedItems using k-means++ and return a full ClusterResult with silhouette scores. Provide `options.k` for a fixed cluster count or `options.autoK = true` for automatic selection.
+- **`findOptimalK(items, options?): OptimalKResult`** -- Try k from 2 to `maxK` (default min(10, √n)), compute silhouette score for each, and return the k that maximises the score.
+- **`silhouetteScore(result): SilhouetteResult`** -- Compute per-item, per-cluster, and overall mean silhouette coefficients for an existing ClusterResult. Returns a value in [-1, 1]; higher is better.
+- **`createClusterer(config): Clusterer`** -- Create a pre-configured Clusterer instance with `cluster()`, `findOptimalK()`, and `silhouetteScore()` bound to the given config.
+
+### Utility Functions
 
 - **`normalizeVector(vec: number[]): number[]`** -- L2-normalize a single vector to unit length. Returns a zero vector unchanged.
 - **`normalizeVectors(vecs: number[][]): number[][]`** -- L2-normalize a batch of vectors independently.
+- **`euclideanDistance(a, b): number`** -- Euclidean distance between two vectors.
+- **`cosineDistance(a, b): number`** -- Cosine distance (1 - cosine similarity) between two vectors.
 
 ### Types
 

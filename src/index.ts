@@ -6,4 +6,7 @@ export type {
 export { ClusterError } from './errors';
 export type { ClusterErrorCode } from './errors';
 export { normalizeVector, normalizeVectors } from './normalize';
-// cluster, findOptimalK, silhouetteScore, createClusterer — Phase 2+
+export { kMeans, euclideanDistance, cosineDistance, kMeansPlusPlusInit } from './kmeans';
+export { silhouetteScore } from './silhouette';
+export { findOptimalK } from './optimal-k';
+export { cluster, createClusterer } from './clusterer';
