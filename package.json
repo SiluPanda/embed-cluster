@@ -1,6 +1,6 @@
 {
   "name": "embed-cluster",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Cluster embeddings into topics with automatic labeling",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
