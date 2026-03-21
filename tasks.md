@@ -6,19 +6,19 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ## Phase 1: Project Setup and Scaffolding
 
-- [ ] **Install dev dependencies** — Add `typescript`, `vitest`, and `eslint` to devDependencies in package.json. Install them. | Status: not_done
-- [ ] **Configure ESLint** — Create an ESLint configuration file suitable for TypeScript. Follow monorepo conventions if one exists. | Status: not_done
-- [ ] **Add vitest config** — Create a `vitest.config.ts` (or configure vitest in package.json) to handle the test/ directory and TypeScript source. | Status: not_done
-- [ ] **Create directory structure** — Create all directories specified in the spec: `src/kmeans/`, `src/auto-k/`, `src/labeling/`, `src/pca/`, `src/quality/`, `src/visualization/`, and `test/fixtures/`. | Status: not_done
-- [ ] **Create types.ts** — Define all TypeScript interfaces and types: `EmbedItem`, `ClusterOptions`, `ClusterResult`, `Cluster`, `ClusterItem`, `SilhouetteResult`, `OptimalKResult`, `ClusterQuality`, `VisualizationData`, `LabelerFn`, `Clusterer`. Exactly as specified in Section 9 of the spec. | Status: not_done
-- [ ] **Create errors.ts** — Implement `ClusterError` class extending `Error` with `code` field supporting values: `EMPTY_INPUT`, `INCONSISTENT_DIMENSIONS`, `DEGENERATE_INPUT`, `INVALID_K`, `INVALID_OPTIONS`. | Status: not_done
-- [ ] **Create normalize.ts** — Implement L2 normalization utility: takes a `number[]` vector and returns a unit-length copy. Handle the zero-vector degenerate case (return zero vector unchanged). Also implement a batch normalization function for `number[][]`. | Status: not_done
-- [ ] **Set up index.ts exports** — Replace the placeholder `export {}` with proper re-exports of the public API surface: `cluster`, `findOptimalK`, `silhouetteScore`, `createClusterer`, all types, and `ClusterError`. (Exports will be wired up as implementations land.) | Status: not_done
-- [ ] **Add bin entry to package.json** — Add a `"bin"` field pointing to the CLI entry point (`dist/cli.js`) for the `embed-cluster` command. | Status: not_done
-- [ ] **Add optional peerDependencies to package.json** — Add `ml-pca` (>=4.0.0) and `umap-js` (>=1.4.0) as optional peer dependencies with `peerDependenciesMeta` marking them as optional. | Status: not_done
-- [ ] **Create test fixture: embeddings-small.json** — Generate a small set of synthetic embedding vectors (e.g., 20 vectors in 8 dimensions with 3 clear clusters) for fast unit tests. | Status: not_done
-- [ ] **Create test fixture: embeddings-5topics.json** — Generate or precompute 200 embedding vectors covering 5 known topics with associated text, for integration and labeling tests. | Status: not_done
-- [ ] **Create test fixture: embeddings-random.json** — Generate random embedding vectors with no cluster structure, for edge-case and quality metric tests. | Status: not_done
+- [x] **Install dev dependencies** — Add `typescript`, `vitest`, and `eslint` to devDependencies in package.json. Install them. | Status: done
+- [x] **Configure ESLint** — Create an ESLint configuration file suitable for TypeScript. Follow monorepo conventions if one exists. | Status: done
+- [x] **Add vitest config** — Create a `vitest.config.ts` (or configure vitest in package.json) to handle the test/ directory and TypeScript source. | Status: done
+- [x] **Create directory structure** — Create all directories specified in the spec: `src/kmeans/`, `src/auto-k/`, `src/labeling/`, `src/pca/`, `src/quality/`, `src/visualization/`, and `test/fixtures/`. | Status: done
+- [x] **Create types.ts** — Define all TypeScript interfaces and types: `EmbedItem`, `ClusterOptions`, `ClusterResult`, `Cluster`, `ClusterItem`, `SilhouetteResult`, `OptimalKResult`, `ClusterQuality`, `VisualizationData`, `LabelerFn`, `Clusterer`. Exactly as specified in Section 9 of the spec. | Status: done
+- [x] **Create errors.ts** — Implement `ClusterError` class extending `Error` with `code` field supporting values: `EMPTY_INPUT`, `INCONSISTENT_DIMENSIONS`, `DEGENERATE_INPUT`, `INVALID_K`, `INVALID_OPTIONS`. | Status: done
+- [x] **Create normalize.ts** — Implement L2 normalization utility: takes a `number[]` vector and returns a unit-length copy. Handle the zero-vector degenerate case (return zero vector unchanged). Also implement a batch normalization function for `number[][]`. | Status: done
+- [x] **Set up index.ts exports** — Replace the placeholder `export {}` with proper re-exports of the public API surface: `cluster`, `findOptimalK`, `silhouetteScore`, `createClusterer`, all types, and `ClusterError`. (Exports will be wired up as implementations land.) | Status: done
+- [x] **Add bin entry to package.json** — Add a `"bin"` field pointing to the CLI entry point (`dist/cli.js`) for the `embed-cluster` command. | Status: done
+- [x] **Add optional peerDependencies to package.json** — Add `ml-pca` (>=4.0.0) and `umap-js` (>=1.4.0) as optional peer dependencies with `peerDependenciesMeta` marking them as optional. | Status: done
+- [x] **Create test fixture: embeddings-small.json** — Generate a small set of synthetic embedding vectors (e.g., 20 vectors in 8 dimensions with 3 clear clusters) for fast unit tests. | Status: done
+- [x] **Create test fixture: embeddings-5topics.json** — Generate or precompute 200 embedding vectors covering 5 known topics with associated text, for integration and labeling tests. | Status: done
+- [x] **Create test fixture: embeddings-random.json** — Generate random embedding vectors with no cluster structure, for edge-case and quality metric tests. | Status: done
 
 ---
 
