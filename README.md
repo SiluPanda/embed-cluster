@@ -3,6 +3,7 @@
 Cluster embedding vectors into semantically coherent groups with automatic k selection, silhouette analysis, and custom labeling.
 
 [![npm version](https://img.shields.io/npm/v/embed-cluster.svg)](https://www.npmjs.com/package/embed-cluster)
+[![npm downloads](https://img.shields.io/npm/dt/embed-cluster.svg)](https://www.npmjs.com/package/embed-cluster)
 [![license](https://img.shields.io/npm/l/embed-cluster.svg)](https://github.com/SiluPanda/embed-cluster/blob/master/LICENSE)
 [![node](https://img.shields.io/node/v/embed-cluster.svg)](https://nodejs.org)
 [![types](https://img.shields.io/npm/types/embed-cluster.svg)](https://www.npmjs.com/package/embed-cluster)
