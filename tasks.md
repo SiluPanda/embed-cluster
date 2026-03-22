@@ -24,54 +24,54 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ## Phase 2: Distance Functions (src/kmeans/distance.ts)
 
-- [ ] **Implement cosine similarity** — `cosineSimilarity(u: number[], v: number[]): number` computing `dot(u,v) / (||u|| * ||v||)`. | Status: not_done
-- [ ] **Implement cosine distance** — `cosineDistance(u: number[], v: number[]): number` returning `1 - cosineSimilarity(u, v)`. For pre-normalized vectors, this simplifies to `1 - dot(u, v)`. | Status: not_done
-- [ ] **Implement Euclidean distance** — `euclideanDistance(u: number[], v: number[]): number` computing `sqrt(sum((u[i] - v[i])^2))`. | Status: not_done
+- [x] **Implement cosine similarity** — `cosineSimilarity(u: number[], v: number[]): number` computing `dot(u,v) / (||u|| * ||v||)`. | Status: done
+- [x] **Implement cosine distance** — `cosineDistance(u: number[], v: number[]): number` returning `1 - cosineSimilarity(u, v)`. For pre-normalized vectors, this simplifies to `1 - dot(u, v)`. | Status: done
+- [x] **Implement Euclidean distance** — `euclideanDistance(u: number[], v: number[]): number` computing `sqrt(sum((u[i] - v[i])^2))`. | Status: done
 - [ ] **Implement squared Euclidean distance** — `euclideanDistanceSquared(u: number[], v: number[]): number` (avoids the sqrt for performance in assignment steps). | Status: not_done
 - [ ] **Implement dot product** — `dotProduct(u: number[], v: number[]): number` as a standalone utility used by cosine computations and the vectorized assignment step. | Status: not_done
 - [ ] **Implement distance factory** — `getDistanceFn(metric: 'cosine' | 'euclidean')` returning the appropriate distance function. | Status: not_done
-- [ ] **Write unit tests for distance functions** — Test cosine and Euclidean distance with known values, including edge cases (zero vectors, identical vectors, opposite vectors, unit vectors). | Status: not_done
+- [x] **Write unit tests for distance functions** — Test cosine and Euclidean distance with known values, including edge cases (zero vectors, identical vectors, opposite vectors, unit vectors). | Status: done
 
 ---
 
 ## Phase 3: k-means++ Initialization (src/kmeans/initialization.ts)
 
-- [ ] **Implement k-means++ initialization** — Given data points and k, select k initial centroids using the D^2-weighted probabilistic selection described in Section 4. First centroid chosen uniformly at random; subsequent centroids chosen with probability proportional to squared distance to nearest existing centroid. | Status: not_done
+- [x] **Implement k-means++ initialization** — Given data points and k, select k initial centroids using the D^2-weighted probabilistic selection described in Section 4. First centroid chosen uniformly at random; subsequent centroids chosen with probability proportional to squared distance to nearest existing centroid. | Status: done
 - [ ] **Implement Forgy (random) initialization** — Select k data points uniformly at random as initial centroids. Available as an alternative for reproducibility testing. | Status: not_done
-- [ ] **Implement seeded random number generator** — Create a deterministic PRNG that accepts an optional seed for reproducible initialization. When no seed is provided, use `Math.random()`. | Status: not_done
-- [ ] **Write unit tests for k-means++ initialization** — Verify: produces exactly k distinct centroids; second centroid is not identical to first; D^2-weighting produces spread-out centroids (measure average pairwise distance vs. random init); seeded init is reproducible. | Status: not_done
+- [x] **Implement seeded random number generator** — Create a deterministic PRNG that accepts an optional seed for reproducible initialization. When no seed is provided, use `Math.random()`. | Status: done
+- [x] **Write unit tests for k-means++ initialization** — Verify: produces exactly k distinct centroids; second centroid is not identical to first; D^2-weighting produces spread-out centroids (measure average pairwise distance vs. random init); seeded init is reproducible. | Status: done
 - [ ] **Write unit tests for Forgy initialization** — Verify: produces k centroids; each centroid is a data point; seeded init is reproducible. | Status: not_done
 
 ---
 
 ## Phase 4: Core k-means Algorithm (src/kmeans/kmeans.ts, src/kmeans/convergence.ts)
 
-- [ ] **Implement assignment step** — For each point, compute distance to all centroids and assign to the nearest centroid. For cosine distance on normalized vectors, use maximum dot product. Return an array of cluster labels (0-indexed). | Status: not_done
+- [x] **Implement assignment step** — For each point, compute distance to all centroids and assign to the nearest centroid. For cosine distance on normalized vectors, use maximum dot product. Return an array of cluster labels (0-indexed). | Status: done
 - [ ] **Implement vectorized assignment step** — Implement the assignment step as a batch matrix-dot-product computation (`X @ C.T`) for efficiency with typed arrays, then argmax each row. | Status: not_done
-- [ ] **Implement centroid update step** — Recompute each centroid as the arithmetic mean of its assigned points. For cosine distance mode, re-normalize centroids to unit length after averaging. | Status: not_done
+- [x] **Implement centroid update step** — Recompute each centroid as the arithmetic mean of its assigned points. For cosine distance mode, re-normalize centroids to unit length after averaging. | Status: done
 - [ ] **Implement empty cluster reinitialization** — When a cluster loses all members during update, reinitialize its centroid by selecting the data point with the highest inertia contribution (farthest from its assigned centroid). | Status: not_done
-- [ ] **Implement convergence detection** — Detect convergence via three criteria: (1) no assignment changes, (2) maximum centroid movement below `tolerance` (default 1e-4), (3) iteration count exceeds `maxIterations` (default 300). | Status: not_done
-- [ ] **Implement single k-means run** — Combine initialization, assignment, update, and convergence into a single `kmeansRun(data, k, options)` function. Return labels, centroids, inertia, and iteration count. | Status: not_done
-- [ ] **Implement inertia computation** — After convergence, compute total inertia as the within-cluster sum of squared distances from each point to its centroid. | Status: not_done
+- [x] **Implement convergence detection** — Detect convergence via three criteria: (1) no assignment changes, (2) maximum centroid movement below `tolerance` (default 1e-4), (3) iteration count exceeds `maxIterations` (default 300). | Status: done
+- [x] **Implement single k-means run** — Combine initialization, assignment, update, and convergence into a single `kmeansRun(data, k, options)` function. Return labels, centroids, inertia, and iteration count. | Status: done
+- [x] **Implement inertia computation** — After convergence, compute total inertia as the within-cluster sum of squared distances from each point to its centroid. | Status: done
 - [ ] **Implement multiple restarts** — Run `nInit` (default 10) independent k-means runs with different random seeds. Keep the run with the lowest inertia. | Status: not_done
-- [ ] **Support cosine mode pre-normalization** — When `distanceMetric: 'cosine'`, L2-normalize all input vectors once before the first run. Reuse the normalized copy across all restarts. Do not mutate the original input. | Status: not_done
-- [ ] **Write unit tests: assignment step** — Test with a trivial 2-cluster case where correct assignment is analytically known. Verify every point is assigned to its nearest centroid. | Status: not_done
-- [ ] **Write unit tests: centroid update** — Verify centroid is the arithmetic mean of cluster members. For cosine mode, verify re-normalization. Verify empty cluster reinitialization fires correctly. | Status: not_done
-- [ ] **Write unit tests: convergence detection** — Verify algorithm stops when assignments do not change. Verify it stops at maxIterations. Verify centroid movement threshold works. | Status: not_done
+- [x] **Support cosine mode pre-normalization** — When `distanceMetric: 'cosine'`, L2-normalize all input vectors once before the first run. Reuse the normalized copy across all restarts. Do not mutate the original input. | Status: done
+- [x] **Write unit tests: assignment step** — Test with a trivial 2-cluster case where correct assignment is analytically known. Verify every point is assigned to its nearest centroid. | Status: done
+- [x] **Write unit tests: centroid update** — Verify centroid is the arithmetic mean of cluster members. For cosine mode, verify re-normalization. Verify empty cluster reinitialization fires correctly. | Status: done
+- [x] **Write unit tests: convergence detection** — Verify algorithm stops when assignments do not change. Verify it stops at maxIterations. Verify centroid movement threshold works. | Status: done
 - [ ] **Write unit tests: multiple restarts** — Verify the run with lowest inertia is selected. Verify nInit restarts are actually executed. | Status: not_done
-- [ ] **Write unit tests: inertia computation** — Verify inertia against hand-computed values for a small dataset. | Status: not_done
+- [x] **Write unit tests: inertia computation** — Verify inertia against hand-computed values for a small dataset. | Status: done
 
 ---
 
 ## Phase 5: Silhouette Score Computation (src/auto-k/silhouette.ts)
 
-- [ ] **Implement per-point silhouette coefficient** — For each point x in cluster C_i: compute a(x) = mean distance to all other points in C_i, b(x) = min over other clusters C_j of mean distance to all points in C_j, s(x) = (b(x) - a(x)) / max(a(x), b(x)). Handle single-member clusters (s(x) = 0). | Status: not_done
-- [ ] **Implement exact silhouette computation** — Compute silhouette for all points using full pairwise distances. Used when n <= 1000. | Status: not_done
+- [x] **Implement per-point silhouette coefficient** — For each point x in cluster C_i: compute a(x) = mean distance to all other points in C_i, b(x) = min over other clusters C_j of mean distance to all points in C_j, s(x) = (b(x) - a(x)) / max(a(x), b(x)). Handle single-member clusters (s(x) = 0). | Status: done
+- [x] **Implement exact silhouette computation** — Compute silhouette for all points using full pairwise distances. Used when n <= 1000. | Status: done
 - [ ] **Implement approximate silhouette via reservoir sampling** — For n > 1000, compute a(x) and b(x) using a random sample of `silhouetteSampleSize` (default 500) points per cluster instead of all points. | Status: not_done
-- [ ] **Implement per-cluster silhouette score** — Mean silhouette coefficient across all points in each cluster. Return as `Record<number, number>`. | Status: not_done
-- [ ] **Implement mean silhouette score** — Mean silhouette coefficient across all points. | Status: not_done
-- [ ] **Implement public `silhouetteScore()` function** — Accepts `embeddings: number[][]` and `labels: number[]` with optional distance metric and sample size. Returns `SilhouetteResult` with `meanScore`, `scores`, `clusterScores`, and `outlierIndices`. | Status: not_done
-- [ ] **Write unit tests for silhouette** — Test against analytically computed values for a 3-point, 2-cluster case. Test single-member cluster edge case. Test approximate vs. exact silhouette agreement within tolerance. | Status: not_done
+- [x] **Implement per-cluster silhouette score** — Mean silhouette coefficient across all points in each cluster. Return as `Record<number, number>`. | Status: done
+- [x] **Implement mean silhouette score** — Mean silhouette coefficient across all points. | Status: done
+- [x] **Implement public `silhouetteScore()` function** — Accepts `embeddings: number[][]` and `labels: number[]` with optional distance metric and sample size. Returns `SilhouetteResult` with `meanScore`, `scores`, `clusterScores`, and `outlierIndices`. | Status: done
+- [x] **Write unit tests for silhouette** — Test against analytically computed values for a 3-point, 2-cluster case. Test single-member cluster edge case. Test approximate vs. exact silhouette agreement within tolerance. | Status: done
 
 ---
 
@@ -94,11 +94,11 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ## Phase 8: Auto-K Consensus and findOptimalK (src/auto-k/auto-k.ts)
 
-- [ ] **Implement silhouette method k-selection** — Run k-means for each k in [kMin, kMax], compute mean silhouette for each k, select the k with the highest mean silhouette score. | Status: not_done
+- [x] **Implement silhouette method k-selection** — Run k-means for each k in [kMin, kMax], compute mean silhouette for each k, select the k with the highest mean silhouette score. | Status: done
 - [ ] **Implement consensus decision logic** — Combine elbow and silhouette recommendations: (1) both agree -> use that k, confidence: high; (2) disagree by 1 -> prefer silhouette k, confidence: medium; (3) disagree by 2+ -> compute CH index for top-2 candidates, pick higher CH, confidence: low. | Status: not_done
-- [ ] **Implement `findOptimalK()` function** — Public function that runs only the k-detection phase. Accepts embeddings and options (kMin, kMax, nInit, distanceMetric, silhouetteSampleSize, methods). Returns `OptimalKResult` with elected k, confidence, elbowK, silhouetteK, tiebreakerK, elbowInertias, silhouetteScores. | Status: not_done
+- [x] **Implement `findOptimalK()` function** — Public function that runs only the k-detection phase. Accepts embeddings and options (kMin, kMax, nInit, distanceMetric, silhouetteSampleSize, methods). Returns `OptimalKResult` with elected k, confidence, elbowK, silhouetteK, tiebreakerK, elbowInertias, silhouetteScores. | Status: done
 - [ ] **Support `autoKMethods` option** — Allow callers to run only elbow, only silhouette, or both methods. When only one method is specified, its recommendation is used directly with confidence: medium. | Status: not_done
-- [ ] **Implement default kMax computation** — `kMax = min(floor(sqrt(n)), 30)` when not specified by the caller. | Status: not_done
+- [x] **Implement default kMax computation** — `kMax = min(floor(sqrt(n)), 30)` when not specified by the caller. | Status: done
 - [ ] **Write unit tests for consensus logic** — Test agree, disagree-by-1, and disagree-by-2+ scenarios. Verify correct confidence levels. Verify tiebreaker invocation. | Status: not_done
 - [ ] **Write integration test for auto-k with synthetic blobs** — Generate Gaussian blobs with known k_true = 5. Verify auto-k selects k within +/-1 of ground truth for n = 100, 500, 2000. | Status: not_done
 
@@ -106,30 +106,30 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ## Phase 9: Input Validation and Error Handling
 
-- [ ] **Validate empty input** — Throw `ClusterError` with code `EMPTY_INPUT` if the input array is empty or contains fewer than `kMin + 1` points. | Status: not_done
-- [ ] **Validate consistent dimensions** — Throw `ClusterError` with code `INCONSISTENT_DIMENSIONS` if embedding vectors have different lengths. | Status: not_done
+- [x] **Validate empty input** — Throw `ClusterError` with code `EMPTY_INPUT` if the input array is empty or contains fewer than `kMin + 1` points. | Status: done
+- [x] **Validate consistent dimensions** — Throw `ClusterError` with code `INCONSISTENT_DIMENSIONS` if embedding vectors have different lengths. | Status: done
 - [ ] **Validate degenerate input** — Throw `ClusterError` with code `DEGENERATE_INPUT` if all embedding vectors are zero vectors. | Status: not_done
-- [ ] **Validate k value** — Throw `ClusterError` with code `INVALID_K` if user-specified k < 2 or k > number of input points. | Status: not_done
+- [x] **Validate k value** — Throw `ClusterError` with code `INVALID_K` if user-specified k < 2 or k > number of input points. | Status: done
 - [ ] **Validate kMin/kMax** — Throw `ClusterError` with code `INVALID_OPTIONS` if `kMin >= kMax` when both are specified during auto-detection. | Status: not_done
 - [ ] **Validate ClusterOptions fields** — Validate nInit > 0, maxIterations > 0, tolerance > 0, silhouetteSampleSize > 0, pca.dimensions > 0. Throw `ClusterError` with code `INVALID_OPTIONS` for invalid values. | Status: not_done
-- [ ] **Write unit tests for all validation cases** — Test each error condition individually. Verify correct error code and message. | Status: not_done
+- [x] **Write unit tests for all validation cases** — Test each error condition individually. Verify correct error code and message. | Status: done
 
 ---
 
 ## Phase 10: Main cluster() Function (src/cluster.ts)
 
 - [ ] **Implement `cluster()` for `number[][]` input** — Accept raw embeddings, validate input, optionally run PCA preprocessing, auto-detect or use provided k, run k-means with restarts, compute silhouette scores, compute quality metrics, compute inter-cluster distances, detect outliers, and return `ClusterResult`. | Status: not_done
-- [ ] **Implement `cluster()` for `EmbedItem[]` input** — Detect that input contains `EmbedItem` objects (by checking for `embedding` property). Extract embeddings for clustering, then attach text, id, and metadata back to `ClusterItem` results. Run TF-IDF labeling pipeline after clustering. | Status: not_done
+- [x] **Implement `cluster()` for `EmbedItem[]` input** — Detect that input contains `EmbedItem` objects (by checking for `embedding` property). Extract embeddings for clustering, then attach text, id, and metadata back to `ClusterItem` results. Run TF-IDF labeling pipeline after clustering. | Status: done
 - [ ] **Implement input type detection** — Distinguish between `number[][]` and `EmbedItem[]` input. If the first element has an `embedding` property, treat as `EmbedItem[]`. | Status: not_done
-- [ ] **Wire auto-k into cluster()** — When `k` is not specified, call `findOptimalK()` to determine k, then cluster at that k. Attach `autoK` result to `ClusterResult`. | Status: not_done
-- [ ] **Wire user-specified k** — When `k` is specified, skip auto-detection and cluster directly at that k. `autoK` is undefined in the result. | Status: not_done
-- [ ] **Build ClusterResult** — Assemble the full result object: k, clusters array, quality, inertia, silhouetteScore, interClusterDistances, outliers, autoK, visualization. | Status: not_done
-- [ ] **Build Cluster objects** — For each cluster: id, centroid, items, size, inertia, silhouetteScore. When text is available: label, keywords, labelConfidence, representative. | Status: not_done
-- [ ] **Build ClusterItem objects** — For each point: clusterId, id (from EmbedItem.id or sequential index), embedding (original, before normalization), text, metadata, silhouette, distanceToCentroid, projection. | Status: not_done
+- [x] **Wire auto-k into cluster()** — When `k` is not specified, call `findOptimalK()` to determine k, then cluster at that k. Attach `autoK` result to `ClusterResult`. | Status: done
+- [x] **Wire user-specified k** — When `k` is specified, skip auto-detection and cluster directly at that k. `autoK` is undefined in the result. | Status: done
+- [x] **Build ClusterResult** — Assemble the full result object: k, clusters array, quality, inertia, silhouetteScore, interClusterDistances, outliers, autoK, visualization. | Status: done
+- [x] **Build Cluster objects** — For each cluster: id, centroid, items, size, inertia, silhouetteScore. When text is available: label, keywords, labelConfidence, representative. | Status: done
+- [x] **Build ClusterItem objects** — For each point: clusterId, id (from EmbedItem.id or sequential index), embedding (original, before normalization), text, metadata, silhouette, distanceToCentroid, projection. | Status: done
 - [ ] **Compute inter-cluster distances** — Build the k x k symmetric matrix of pairwise cosine distances between centroids. | Status: not_done
-- [ ] **Write end-to-end integration test** — Cluster synthetic Gaussian blobs, verify correct k recovery, >= 95% assignment accuracy. | Status: not_done
-- [ ] **Write integration test for EmbedItem[] passthrough** — Verify id, text, and metadata fields are correctly preserved in ClusterItem output. | Status: not_done
-- [ ] **Write reproducibility test** — With `seed` set, verify two identical calls produce bit-for-bit identical results. | Status: not_done
+- [x] **Write end-to-end integration test** — Cluster synthetic Gaussian blobs, verify correct k recovery, >= 95% assignment accuracy. | Status: done
+- [x] **Write integration test for EmbedItem[] passthrough** — Verify id, text, and metadata fields are correctly preserved in ClusterItem output. | Status: done
+- [x] **Write reproducibility test** — With `seed` set, verify two identical calls produce bit-for-bit identical results. | Status: done
 
 ---
 
@@ -191,8 +191,8 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ## Phase 15: createClusterer Factory
 
-- [ ] **Implement `createClusterer(config)`** — Factory function that accepts `ClusterOptions` and returns a `Clusterer` instance with pre-bound configuration. The instance exposes `cluster(embeddings)`, `cluster(items)`, and `findOptimalK(embeddings)` methods that merge the pre-configured options with any per-call overrides. | Status: not_done
-- [ ] **Write unit tests for createClusterer** — Verify pre-configured options are applied. Verify per-call options can override pre-configured ones. | Status: not_done
+- [x] **Implement `createClusterer(config)`** — Factory function that accepts `ClusterOptions` and returns a `Clusterer` instance with pre-bound configuration. The instance exposes `cluster(embeddings)`, `cluster(items)`, and `findOptimalK(embeddings)` methods that merge the pre-configured options with any per-call overrides. | Status: done
+- [x] **Write unit tests for createClusterer** — Verify pre-configured options are applied. Verify per-call options can override pre-configured ones. | Status: done
 
 ---
 
@@ -244,12 +244,12 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ## Phase 20: Public API Exports (src/index.ts)
 
-- [ ] **Export `cluster` function** — The primary API. | Status: not_done
-- [ ] **Export `findOptimalK` function** — Standalone k-detection. | Status: not_done
-- [ ] **Export `silhouetteScore` function** — Standalone silhouette evaluation. | Status: not_done
-- [ ] **Export `createClusterer` factory** — Pre-configured clusterer. | Status: not_done
-- [ ] **Export all TypeScript types** — `EmbedItem`, `ClusterOptions`, `ClusterResult`, `Cluster`, `ClusterItem`, `SilhouetteResult`, `OptimalKResult`, `ClusterQuality`, `VisualizationData`, `LabelerFn`, `Clusterer`. | Status: not_done
-- [ ] **Export `ClusterError`** — Error class for consumer catch blocks. | Status: not_done
+- [x] **Export `cluster` function** — The primary API. | Status: done
+- [x] **Export `findOptimalK` function** — Standalone k-detection. | Status: done
+- [x] **Export `silhouetteScore` function** — Standalone silhouette evaluation. | Status: done
+- [x] **Export `createClusterer` factory** — Pre-configured clusterer. | Status: done
+- [x] **Export all TypeScript types** — `EmbedItem`, `ClusterOptions`, `ClusterResult`, `Cluster`, `ClusterItem`, `SilhouetteResult`, `OptimalKResult`, `ClusterQuality`, `VisualizationData`, `LabelerFn`, `Clusterer`. | Status: done
+- [x] **Export `ClusterError`** — Error class for consumer catch blocks. | Status: done
 
 ---
 
