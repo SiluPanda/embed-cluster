@@ -241,7 +241,7 @@ export function kMeans(items: EmbedItem[], k: number, options: ClusterOptions = 
     const dist = distFn(vectors[i], centroids[cid]);
     clusterItems[cid].push({
       ...items[i],
-      embedding: vectors[i],   // use the (possibly normalized) vector
+      embedding: items[i].embedding,   // preserve original embedding
       clusterId: cid,
       distanceToCentroid: dist,
     });

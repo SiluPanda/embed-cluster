@@ -228,3 +228,27 @@ describe('silhouetteScore re-export', () => {
     expect(s1.score).toBeCloseTo(s2.score, 10);
   });
 });
+
+describe('findOptimalK input validation', () => {
+  it('throws for empty input', () => {
+    expect(() => findOptimalK([])).toThrow(ClusterError);
+  });
+
+  it('throws for fewer than 3 items', () => {
+    const items: EmbedItem[] = [
+      { id: '1', text: 'a', embedding: [1, 0] },
+      { id: '2', text: 'b', embedding: [0, 1] },
+    ];
+    expect(() => findOptimalK(items)).toThrow(ClusterError);
+  });
+});
+
+describe('original embeddings preserved', () => {
+  it('cluster result preserves original embeddings, not normalized', async () => {
+    const originalEmbedding = [...ITEMS_2[0].embedding];
+    const result = await cluster(ITEMS_2, { k: 2, normalize: true, seed: 1 });
+    const item = result.clusters.flatMap(c => c.items).find(i => i.id === ITEMS_2[0].id);
+    expect(item).toBeDefined();
+    expect(item!.embedding).toEqual(originalEmbedding);
+  });
+});

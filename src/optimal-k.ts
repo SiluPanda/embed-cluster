@@ -1,5 +1,6 @@
 import type { EmbedItem, OptimalKResult, ClusterOptions } from './types';
-import { kMeans } from './kmeans';
+import { ClusterError } from './errors';
+import { kMeans, euclideanDistance } from './kmeans';
 import { silhouetteScore } from './silhouette';
 
 // ---------------------------------------------------------------------------
@@ -18,6 +19,12 @@ export function findOptimalK(
   items: EmbedItem[],
   options: Omit<ClusterOptions, 'k'> = {},
 ): OptimalKResult {
+  if (items.length === 0) {
+    throw new ClusterError('Input must not be empty', 'EMPTY_INPUT');
+  }
+  if (items.length < 3) {
+    throw new ClusterError('findOptimalK requires at least 3 items', 'INVALID_K');
+  }
   const n = items.length;
   const kMin = 2;
   const kMax = options.maxK ?? Math.min(10, Math.floor(Math.sqrt(n)));
@@ -30,7 +37,8 @@ export function findOptimalK(
 
   for (let k = effectiveKMin; k <= effectiveKMax; k++) {
     const result = kMeans(items, k, { ...options, k });
-    const sil = silhouetteScore(result);
+    const distFn = (options as ClusterOptions).distanceFn ?? euclideanDistance;
+    const sil = silhouetteScore(result, distFn);
     scores.push({
       k,
       silhouette: sil.score,
