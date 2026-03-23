@@ -42,7 +42,7 @@ export async function cluster(
   const result = kMeans(items, k, options);
 
   // Populate silhouette scores in quality
-  const sil = silhouetteScore(result);
+  const sil = silhouetteScore(result, options.distanceFn);
   result.quality.silhouette = sil;
 
   // Apply labeler if provided
@@ -78,7 +78,7 @@ export function createClusterer(config: ClusterOptions = {}): Clusterer {
     },
 
     silhouetteScore(result: ClusterResult) {
-      return silhouetteScore(result);
+      return silhouetteScore(result, config.distanceFn);
     },
   };
 }
